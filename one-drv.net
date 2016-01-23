@@ -1,0 +1,307 @@
+# EESchema Netlist Version 1.1 created  Вск 03 Мар 2013 23:21:33
+(
+ ( /512A2EE8 DIP20  IC1 ATTINY2313-P {Lib=ATTINY2313-P}
+  (    1 RST )
+  (    2 EnA )
+  (    3 EnB )
+  (    4 ? )
+  (    5 ? )
+  (    6 INTR )
+  (    7 N-000012 )
+  (    8 N-000002 )
+  (    9 N-000011 )
+  (   10 GND )
+  (   11 N-000010 )
+  (   12 A+ )
+  (   13 A- )
+  (   14 B+ )
+  (   15 B- )
+  (   16 ? )
+  (   17 MOSI )
+  (   18 MISO )
+  (   19 SCK )
+  (   20 VCC )
+ )
+ ( /512A3054 $noname  P1 CONN_5X2 {Lib=CONN_5X2}
+  (    1 MOSI )
+  (    2 VCC )
+  (    3 ? )
+  (    4 GND )
+  (    5 RST )
+  (    6 GND )
+  (    7 SCK )
+  (    8 GND )
+  (    9 MISO )
+  (   10 GND )
+ )
+ ( /512A3063 $noname  R1 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 MOSI )
+ )
+ ( /512A3072 $noname  R2 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 MISO )
+ )
+ ( /512A3081 $noname  R3 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 SCK )
+ )
+ ( /512A3132 $noname  R4 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 RST )
+ )
+ ( /512A3364 $noname  C1 100n {Lib=C}
+  (    1 VCC )
+  (    2 GND )
+ )
+ ( /512A33C9 $noname  P2 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR )
+  (    5 GND )
+ )
+ ( /512A3576 $noname  P3 CONN_7 {Lib=CONN_7}
+  (    1 A+ )
+  (    2 EnA )
+  (    3 A- )
+  (    4 B+ )
+  (    5 EnB )
+  (    6 B- )
+  (    7 GND )
+ )
+ ( /512A9D54 $noname  R5 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 INTR )
+ )
+ ( /5133BF35 $noname  D1 LED {Lib=LED}
+  (    1 N-000010 )
+  (    2 N-000003 )
+ )
+ ( /5133BF44 $noname  D2 LED {Lib=LED}
+  (    1 N-000011 )
+  (    2 N-000004 )
+ )
+ ( /5133BF53 $noname  D3 LED {Lib=LED}
+  (    1 N-000002 )
+  (    2 N-000006 )
+ )
+ ( /5133BF62 $noname  D4 LED {Lib=LED}
+  (    1 N-000012 )
+  (    2 N-000007 )
+ )
+ ( /5133BF71 $noname  R6 510 {Lib=R}
+  (    1 N-000003 )
+  (    2 GND )
+ )
+ ( /5133BF80 $noname  R7 510 {Lib=R}
+  (    1 N-000004 )
+  (    2 GND )
+ )
+ ( /5133BF8F $noname  R8 510 {Lib=R}
+  (    1 N-000006 )
+  (    2 GND )
+ )
+ ( /5133BF9E $noname  R9 510 {Lib=R}
+  (    1 N-000007 )
+  (    2 GND )
+ )
+)
+*
+{ Allowed footprints by component:
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D2
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D3
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D4
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
+{ Pin List by Nets
+Net 1 "RST" "RST"
+ P1 5
+ R4 2
+ IC1 1
+Net 2 "" ""
+ IC1 8
+ D3 1
+Net 3 "" ""
+ D1 2
+ R6 1
+Net 4 "" ""
+ R7 1
+ D2 2
+Net 5 "GND" "GND"
+ P2 5
+ P3 7
+ P1 6
+ P1 4
+ IC1 10
+ P1 10
+ P1 8
+ C1 2
+ R9 2
+ R8 2
+ R7 2
+ R6 2
+Net 6 "" ""
+ D3 2
+ R8 1
+Net 7 "" ""
+ D4 2
+ R9 1
+Net 8 "VCC" "VCC"
+ R3 1
+ R4 1
+ R2 1
+ R1 1
+ C1 1
+ R5 1
+ P1 2
+ IC1 20
+Net 9 "INTR" "INTR"
+ R5 2
+ P2 4
+ IC1 6
+Net 10 "" ""
+ IC1 11
+ D1 1
+Net 11 "" ""
+ IC1 9
+ D2 1
+Net 12 "" ""
+ D4 1
+ IC1 7
+Net 13 "EnA" "EnA"
+ P3 2
+ IC1 2
+Net 14 "EnB" "EnB"
+ IC1 3
+ P3 5
+Net 15 "A+" "A+"
+ P3 1
+ IC1 12
+Net 16 "A-" "A-"
+ IC1 13
+ P3 3
+Net 17 "B+" "B+"
+ P3 4
+ IC1 14
+Net 18 "B-" "B-"
+ IC1 15
+ P3 6
+Net 19 "MOSI" "MOSI"
+ R1 2
+ P2 1
+ P1 1
+ IC1 17
+Net 20 "MISO" "MISO"
+ IC1 18
+ R2 2
+ P1 9
+ P2 3
+Net 21 "SCK" "SCK"
+ P2 2
+ IC1 19
+ R3 2
+ P1 7
+}
+#End

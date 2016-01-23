@@ -1,0 +1,308 @@
+.include "tn2313def.inc"
+
+; fosc = 8MHz
+; Fuse-bits
+;	High byte: 0b11011111
+;	Low byte : 0b11100100
+
+.equ SPI_ACK = 0b11100001
+
+.equ LowTestC = 0b00000000
+.equ MidTestC = 0b00110101
+.equ HighTestC = 0b00000111
+
+.equ SpiPort = PORTB
+.equ DDR_SPI = DDRB
+.equ SPI_PINS = PINB
+.equ SpiSCK = PORTB7
+.equ SpiDO = PORTB6
+.equ SpiDI = PORTB5
+
+.def temp = r17
+; для передачи данных по SPI
+.def dataTemp = r16
+; счетчик для формирования задержки в коммутации обмоток ШД
+.def WaitingCounter0 = r18
+.def WaitingCounter1 = r19
+.def WaitingCounter2 = r20
+; значение счетчиков (для частоты коммутации = 20кГц и частоты МК = 8МГц)
+.equ LowCounter = 0b01100011
+.equ MidCounter = 0b00000000
+
+.equ LowCounter2 = 0b00110001
+.equ MidCounter2 = 0b00000000
+;.equ HighCounter = 0b00000000
+; начало отсчета состояний (основание ОЗУ)
+.equ RAM_BASE = 0x60
+.equ RAM_FINISH = 0x67
+; маска для порта обмоток
+.equ WIND_MASK = 0b00000000
+; маска для порта разрешения обмоток
+.equ WENB_MASK = 0b00000011
+
+; состояния обмоток
+.equ State1 = 0b00000101
+.equ State2 = 0b00000001
+.equ State3 = 0b00001001
+.equ State4 = 0b00001000
+.equ State5 = 0b00001010
+.equ State6 = 0b00000010
+.equ State7 = 0b00000110
+.equ State8 = 0b00000100
+
+; биты состояния
+.equ StateMCU1 = 3
+.equ StateMCU2 = 4
+.equ StateMCU3 = 5
+.equ StateMCU4 = 6
+.equ StateMCUPort = PORTD
+.equ ClearStateMCU = 0b00000011
+
+; 1. конфигурирование
+; 2. ожидание приема по SPI. Направление, число полушагов.
+; 3. выполнение принятого
+; 3.1 чтение следующего состояния обмоток
+; 3.2 применение следующего состояния обмоток
+; 3.3 текущее состояние = следующее состояние
+
+; LD R, X+ ; R <- [X], X++
+; ST X+, R ; [X] <- R, X++
+
+; векторы прерываний
+	rjmp MAIN;
+	rjmp CrystalSelected	; External Interrupt0 Handler
+	rjmp NILL_INT			; External Interrupt1 Handler
+	rjmp NILL_INT			; Timer1 Capture Handler
+	rjmp NILL_INT			; Timer1 CompareA Handler
+	rjmp NILL_INT			; Timer1 Overflow Handler
+	rjmp NILL_INT			; Timer0 Overflow Handler
+	rjmp NILL_INT			; USART0 RX Complete Handler
+	rjmp NILL_INT			; USART0,UDR Empty Handler
+	rjmp NILL_INT			; USART0 TX Complete Handler
+	rjmp NILL_INT			; Analog Comparator Handler
+	rjmp NILL_INT			; Pin Change Interrupt
+	rjmp NILL_INT			; Timer1 Compare B Handler
+	rjmp NILL_INT			; Timer0 Compare A Handler
+	rjmp NILL_INT			; Timer0 Compare B Handler
+	rjmp NILL_INT			; USI Start Handler
+	rjmp NILL_INT			; USI Overflow Handler
+	rjmp NILL_INT			; EEPROM Ready Handler
+	rjmp NILL_INT			; Watchdog Overflow Handler
+
+; инициализация
+MAIN:
+; 1. конфигурирование
+	cli
+; выделяем под стек всю оперативную память
+	ldi temp, Low(RAMEND);
+	out SPL, temp;
+; Запонение оперативной памяти
+	ldi XL, RAM_BASE
+	clr XH
+	ldi temp, State1
+	st X+, temp
+	ldi temp, State2
+	st X+, temp
+	ldi temp, State3
+	st X+, temp
+	ldi temp, State4
+	st X+, temp
+	ldi temp, State5
+	st X+, temp
+	ldi temp, State6
+	st X+, temp
+	ldi temp, State7
+	st X+, temp
+	ldi temp, State8
+	st X+, temp
+; инициализация SPI (Fck/4) и портов ввода-вывода (SPI - без прерываний)
+; External, positive edge = USICS1=1, USICS0=0, USICLK=0
+	ldi temp, (1<<SpiDO)|(1<<PORTB0)|(1<<PORTB1)|(1<<PORTB2)|(1<<PORTB3)
+	out DDRB, temp;
+	ldi temp, (1<<USIWM0)|(1<<USICS1);
+	out USICR, temp;
+; включение spi - по прерыванию
+; сначала разрешим прерывания внешние int0 и int1
+	; включение Crystal select (int1) - по срезу, SyncMotor (int0) - по спаду
+	; (+отключение sleepmode, sleepmode = power-down)
+	ldi temp, (1<<SM1)|(1<<SM0)|(1<<ISC01)
+	out MCUCR, temp;
+	; разрешение external-INT0 и отключение PinChange прерываний
+	ldi temp, (1<<INT0);
+	out GIMSK, temp;
+	; Отключение pin change прерываний (по одному, в довесок)
+	clr temp;
+; ATtiny2313
+	out PCMSK, temp;
+
+; Настраиваем порты 
+; PORTB
+	;сделано раньше
+; PORTA
+	ldi temp, 0b00000011
+	out DDRA, temp
+; PORTD
+	ldi temp, 0b00111011	; на выход - все, кроме int0
+	out DDRD, temp
+	ldi temp, ClearStateMCU
+	out StateMCUPort, temp
+
+	; Инициализация ШД
+	; разрешение обмоток
+	clr temp
+	ldi temp, WENB_MASK
+	out PORTD, temp
+	; конфигурация обмоток
+	clr XH;
+	ldi XL, RAM_BASE
+	ld temp, X
+	ori temp, WIND_MASK
+	out PORTB, temp
+	; разрешаем прерывания...
+	ldi dataTemp, SPI_ACK
+	mov r0, dataTemp
+	sei;
+
+	; Выполняем цикл
+; 2. ожидание приема по SPI. Направление, число полушагов.
+  main_cycle:
+	ldi temp, ClearStateMCU
+	out StateMCUPort, temp
+	rjmp main_cycle;
+
+; пустое прерывание
+NILL_INT:
+	reti;
+
+; 3.1 чтение следующего состояния обмоток
+; 3.2 применение следующего состояния обмоток
+; 3.3 текущее состояние = следующее состояние
+; Прерывание на выбор кристала (прием команды от ведущего и выполнение ее сразу же)
+CrystalSelected:
+;	sbi PORTA, 1
+	sbi StateMCUPort, StateMCU1
+	; очищаем флаги прерываний
+	ldi temp, 0b11111111
+	out GIFR, temp
+	; ожидаем передачи по SPI
+;	clr dataTemp;
+;	ldi dataTemp, SPI_ACK
+	mov dataTemp, r0
+	rcall SPI_xfer
+	mov r0, dataTemp
+
+;	ldi temp, ClearStateMCU
+;	out StateMCUPort, temp
+	sbi StateMCUPort, StateMCU2
+
+	; выработка необходимых последовательностей
+	; старший бит dataTemp = 1 - в сторону "-"
+	; старший бит dataTemp = 0 - в сторону "+"
+;	ldi dataTemp, $83
+	sbrs dataTemp, 7
+	rjmp to_plus
+
+ to_minus:
+;	ldi temp, ClearStateMCU
+;	out StateMCUPort, temp
+
+	cbr dataTemp, $80
+	cpi XL, RAM_BASE
+	brne ok_to_decrement
+	ldi XL, RAM_FINISH
+	rjmp finished_X_dec
+ ok_to_decrement:
+	dec XL
+ finished_X_dec:
+	ld temp, X
+	; меняем состояние обмоток
+	ori temp, WIND_MASK
+	out PORTB, temp
+	; временная задержка для драйвера ШД - частота смены состояний должна быть не более, чем 40 кГц.
+	; возьмем частоту = 20кГц -> T = 0.00005 секунд.(или 400 тактов при 8МГц тактовой частоте МК)
+	rcall CommutationDelay2
+	cbi StateMCUPort, StateMCU3
+	rcall CommutationDelay2
+	sbi StateMCUPort, StateMCU3
+	; и еще разок (счетчик - dataTemp - до обнуления!)
+	dec dataTemp
+	brne	to_minus; еще есть куда продолжать (dataTemp != 0)
+	rjmp escape_from_irq;
+
+ to_plus:
+;	ldi temp, ClearStateMCU
+;	out StateMCUPort, temp
+
+	cbr dataTemp, $80
+	cpi XL, RAM_FINISH
+	brne ok_to_increment
+	ldi XL, RAM_BASE
+	rjmp finished_X_inc
+ ok_to_increment:
+	inc XL
+ finished_X_inc:
+	ld temp, X
+	; меняем состояние обмоток
+	ori temp, WIND_MASK
+	out PORTB, temp
+	; временная задержка для драйвера ШД - частота смены состояний должна быть не более, чем 40 кГц.
+	; возьмем частоту = 20кГц -> T = 0.00005 секунд.(или 400 тактов при 8МГц тактовой частоте МК)
+	rcall CommutationDelay2
+	cbi StateMCUPort, StateMCU4
+	rcall CommutationDelay2
+	sbi StateMCUPort, StateMCU4
+	; и еще разок (счетчик - dataTemp - до обнуления!)
+	dec dataTemp
+	brne	to_plus; еще есть куда продолжать (dataTemp != 0)
+ escape_from_irq:
+;	ldi temp, ClearStateMCU
+;	out StateMCUPort, temp
+;	cbi PORTA, 1
+	; очищаем флаги прерываний
+	ldi temp, 0b11111111
+	out GIFR, temp
+	reti;
+
+TesterDelay:
+	ldi WaitingCounter0, LowTestC
+	ldi WaitingCounter1, MidTestC
+	ldi WaitingCounter2, HighTestC
+	TesterDelay_do:
+	subi WaitingCounter0, 1
+	sbci WaitingCounter1, 0
+	sbci WaitingCounter2, 0
+	brcc TesterDelay_do
+	ret
+
+CommutationDelay2:
+	ldi WaitingCounter0, LowCounter2
+	ldi WaitingCounter1, MidCounter2
+	rjmp CommutationDelay_do
+CommutationDelay:
+	ldi WaitingCounter0, LowCounter
+	ldi WaitingCounter1, MidCounter
+	CommutationDelay_do:
+	subi WaitingCounter0, 1
+	sbci WaitingCounter1, 0
+	brcc CommutationDelay_do
+	ret
+
+
+
+; функция приеме-передачи данных по SPI
+; IN - dataTemp - byte to send
+; OUT - dataTemp - recieved byte
+SPI_xfer:
+	out USIDR, dataTemp;
+	sbi USISR, USIOIF;
+  xfer_complete_check:
+;	rcall TesterDelay
+;	sbi StateMCUPort, StateMCU3
+;	rcall TesterDelay
+;	cbi StateMCUPort, StateMCU3
+	sbis USISR, USIOIF;
+;	sbic USISR, USIOIF;
+	rjmp xfer_complete_check;
+	in dataTemp, USIDR;
+	ret;
+

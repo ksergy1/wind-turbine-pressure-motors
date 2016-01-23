@@ -1,0 +1,462 @@
+# EESchema Netlist Version 1.1 created  Вск 03 Мар 2013 23:17:22
+(
+ ( /512A3CB3 $noname  U2 MAX232 {Lib=MAX232}
+  (    1 N-000018 )
+  (    2 N-000022 )
+  (    3 N-000019 )
+  (    4 N-000020 )
+  (    5 N-000021 )
+  (    6 N-000023 )
+  (    7 N-000035 )
+  (    8 RxD )
+  (    9 N-000033 )
+  (   10 TX )
+  (   11 TX )
+  (   12 RX )
+  (   13 RxD )
+  (   14 TxD )
+  (   15 RST )
+  (   16 VCC )
+ )
+ ( /512A3ECE $noname  U1 74HC138 {Lib=74HC138}
+  (    1 N-000004 )
+  (    2 N-000003 )
+  (    3 N-000039 )
+  (    4 N-000036 )
+  (    5 N-000037 )
+  (    6 N-000038 )
+  (    7 INTR7 )
+  (    8 RST )
+  (    9 INTR6 )
+  (   10 INTR5 )
+  (   11 INTR4 )
+  (   12 INTR3 )
+  (   13 INTR2 )
+  (   14 INTR1 )
+  (   15 INTR0 )
+  (   16 VCC )
+ )
+ ( /512A3EDD DIL28  IC1 ATMEGA8-P {Lib=ATMEGA8-P}
+  (    1 RST )
+  (    2 RX )
+  (    3 TX )
+  (    4 ? )
+  (    5 ? )
+  (    6 ? )
+  (    7 VCC )
+  (    8 RST )
+  (    9 ? )
+  (   10 ? )
+  (   11 ? )
+  (   12 ? )
+  (   13 ? )
+  (   14 ? )
+  (   15 ? )
+  (   16 ? )
+  (   17 MOSI )
+  (   18 MISO )
+  (   19 SCK )
+  (   20 ? )
+  (   21 ? )
+  (   22 ? )
+  (   23 N-000004 )
+  (   24 N-000003 )
+  (   25 N-000039 )
+  (   26 N-000038 )
+  (   27 N-000037 )
+  (   28 N-000036 )
+ )
+ ( /512A3EEC $noname  P1 CONN_5X2 {Lib=CONN_5X2}
+  (    1 MOSI )
+  (    2 VCC )
+  (    3 ? )
+  (    4 RST )
+  (    5 RST )
+  (    6 RST )
+  (    7 SCK )
+  (    8 RST )
+  (    9 MISO )
+  (   10 RST )
+ )
+ ( /512A4908 $noname  R1 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 MOSI )
+ )
+ ( /512A4917 $noname  R2 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 MISO )
+ )
+ ( /512A4926 $noname  R3 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 SCK )
+ )
+ ( /512A4DEB $noname  C2 1uF {Lib=CP1}
+  (    1 VCC )
+  (    2 RST )
+ )
+ ( /512A4FB5 $noname  C3 1uF {Lib=CP1}
+  (    1 N-000018 )
+  (    2 N-000019 )
+ )
+ ( /512A4FC4 $noname  C5 1uF {Lib=CP1}
+  (    1 N-000020 )
+  (    2 N-000021 )
+ )
+ ( /512A50B4 $noname  C4 1uF {Lib=CP1}
+  (    1 N-000022 )
+  (    2 VCC )
+ )
+ ( /512A50C3 $noname  C6 1uF {Lib=CP1}
+  (    1 RST )
+  (    2 N-000023 )
+ )
+ ( /512A53ED $noname  R4 5k1 {Lib=R}
+  (    1 VCC )
+  (    2 RST )
+ )
+ ( /512A5560 $noname  C1 100nF {Lib=C}
+  (    1 VCC )
+  (    2 RST )
+ )
+ ( /512A63F2 $noname  P2 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR0 )
+  (    5 RST )
+ )
+ ( /512A6836 $noname  P3 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR1 )
+  (    5 RST )
+ )
+ ( /512A684A $noname  P4 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR2 )
+  (    5 RST )
+ )
+ ( /512A685E $noname  P5 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR3 )
+  (    5 RST )
+ )
+ ( /512A68C2 $noname  P6 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR4 )
+  (    5 RST )
+ )
+ ( /512A68D6 $noname  P7 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR5 )
+  (    5 RST )
+ )
+ ( /512A68EA $noname  P8 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR6 )
+  (    5 RST )
+ )
+ ( /512A68FE $noname  P9 CONN_5 {Lib=CONN_5}
+  (    1 MOSI )
+  (    2 SCK )
+  (    3 MISO )
+  (    4 INTR7 )
+  (    5 RST )
+ )
+ ( /512A74C9 $noname  J1 DB9 {Lib=DB9}
+  (    1 ? )
+  (    2 TxD )
+  (    3 RxD )
+  (    4 ? )
+  (    5 RST )
+  (    6 ? )
+  (    7 ? )
+  (    8 ? )
+  (    9 ? )
+ )
+ ( /5133BFA4 $noname  D1 LED {Lib=LED}
+  (    1 N-000033 )
+  (    2 N-000032 )
+ )
+ ( /5133BFB3 $noname  R5 510 {Lib=R}
+  (    1 N-000032 )
+  (    2 RST )
+ )
+ ( /5133C0EF $noname  D2 LED {Lib=LED}
+  (    1 N-000035 )
+  (    2 N-000034 )
+ )
+ ( /5133C0FE $noname  R6 510 {Lib=R}
+  (    1 N-000034 )
+  (    2 RST )
+ )
+)
+*
+{ Allowed footprints by component:
+$component IC1
+ 28DIP-ELL600
+ 28dip600
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C2
+ CP*
+ SM*
+$endlist
+$component C3
+ CP*
+ SM*
+$endlist
+$component C5
+ CP*
+ SM*
+$endlist
+$component C4
+ CP*
+ SM*
+$endlist
+$component C6
+ CP*
+ SM*
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component J1
+ DB9*
+$endlist
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component D2
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
+{ Pin List by Nets
+Net 1 "RST" "RST"
+ C6 1
+ P4 5
+ P3 5
+ P9 5
+ P5 5
+ P6 5
+ R6 2
+ R5 2
+ P7 5
+ R4 2
+ J1 5
+ P8 5
+ P1 4
+ U1 8
+ C2 2
+ IC1 1
+ C1 2
+ IC1 8
+ P2 5
+ U2 15
+ P1 10
+ P1 8
+ P1 6
+ P1 5
+Net 2 "VCC" "VCC"
+ C2 1
+ R3 1
+ R2 1
+ P1 2
+ R1 1
+ U2 16
+ IC1 7
+ U1 16
+ R4 1
+ C4 2
+ C1 1
+Net 3 "" ""
+ U1 2
+ IC1 24
+Net 4 "" ""
+ IC1 23
+ U1 1
+Net 5 "TX" "TX"
+ IC1 3
+ U2 10
+ U2 11
+Net 6 "RX" "RX"
+ IC1 2
+ U2 12
+Net 7 "INTR4" "INTR4"
+ U1 11
+ P6 4
+Net 8 "INTR3" "INTR3"
+ U1 12
+ P5 4
+Net 9 "INTR2" "INTR2"
+ P4 4
+ U1 13
+Net 10 "INTR1" "INTR1"
+ U1 14
+ P3 4
+Net 11 "INTR0" "INTR0"
+ P2 4
+ U1 15
+Net 12 "INTR7" "INTR7"
+ P9 4
+ U1 7
+Net 13 "INTR6" "INTR6"
+ U1 9
+ P8 4
+Net 14 "INTR5" "INTR5"
+ P7 4
+ U1 10
+Net 15 "MISO" "MISO"
+ P2 3
+ P6 3
+ P3 3
+ P5 3
+ R2 2
+ P4 3
+ P7 3
+ P8 3
+ P1 9
+ IC1 18
+ P9 3
+Net 16 "SCK" "SCK"
+ P7 2
+ P8 2
+ P4 2
+ P5 2
+ P6 2
+ IC1 19
+ R3 2
+ P2 2
+ P1 7
+ P3 2
+ P9 2
+Net 17 "MOSI" "MOSI"
+ P5 1
+ P2 1
+ P4 1
+ P8 1
+ P3 1
+ P7 1
+ P9 1
+ P6 1
+ IC1 17
+ P1 1
+ R1 2
+Net 18 "" ""
+ C3 1
+ U2 1
+Net 19 "" ""
+ U2 3
+ C3 2
+Net 20 "" ""
+ C5 1
+ U2 4
+Net 21 "" ""
+ U2 5
+ C5 2
+Net 22 "" ""
+ U2 2
+ C4 1
+Net 23 "" ""
+ U2 6
+ C6 2
+Net 29 "RxD" "RxD"
+ J1 3
+ U2 13
+ U2 8
+Net 30 "TxD" "TxD"
+ U2 14
+ J1 2
+Net 32 "" ""
+ R5 1
+ D1 2
+Net 33 "" ""
+ U2 9
+ D1 1
+Net 34 "" ""
+ R6 1
+ D2 2
+Net 35 "" ""
+ D2 1
+ U2 7
+Net 36 "" ""
+ U1 4
+ IC1 28
+Net 37 "" ""
+ IC1 27
+ U1 5
+Net 38 "" ""
+ U1 6
+ IC1 26
+Net 39 "" ""
+ U1 3
+ IC1 25
+}
+#End
